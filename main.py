@@ -7,23 +7,6 @@ from PyQt5.QtCore import Qt
 import keyboard
 
 
-class setInterval :
-    def __init__(self,interval,action) :
-        self.interval=interval
-        self.action=action
-        self.stopEvent=threading.Event()
-        thread=threading.Thread(target=self.__setInterval)
-        thread.start()
-
-    def __setInterval(self) :
-        nextTime=time.time()+self.interval
-        while not self.stopEvent.wait(nextTime-time.time()) :
-            nextTime+=self.interval
-            self.action()
-
-    def cancel(self) :
-        self.stopEvent.set()
-
 def secondsToText(secs):
     days = secs // 86400
     hours = int((secs - days * 86400) // 3600)
@@ -43,8 +26,6 @@ class MainWindow(QMainWindow):
 
 
     def initUi(self, maxWidth, maxHeight):
-        print(maxWidth)
-        print(maxHeight)
         self.setGeometry(maxWidth-150, -50, 300, 300)
         self.setWindowTitle("SpeedRun counter")
         self.setWindowFlags(Qt.FramelessWindowHint |
@@ -60,8 +41,8 @@ class MainWindow(QMainWindow):
         self.label.setStyleSheet('color: white')
         self.label.resize(self.width(), self.height())
         self.show()
-        keyboard.add_hotkey('²', self.toggleTimer)
-        keyboard.add_hotkey('shift + ²', self.resetTimer)
+        keyboard.add_hotkey('del', self.toggleTimer)
+        keyboard.add_hotkey('shift + del', self.resetTimer)
 
 
     def startTimer(self):
