@@ -8,6 +8,13 @@ import keyboard
 
 
 def secondsToText(secs):
+    """ Converts a number of sec to the format hh:mm:ss
+
+        :param secs: The number of seconds to convert
+        :type secs: int
+        :return: The formated converted time
+        :rtype: str
+    """
     days = secs // 86400
     hours = int((secs - days * 86400) // 3600)
     minutes = int((secs - days * 86400 - hours * 3600) // 60)
@@ -17,7 +24,7 @@ def secondsToText(secs):
 
 
 class MainWindow(QMainWindow):
-    def __init__(self, screenWidth, screenHeight):
+    def __init__(self, screenWidth):
         super(MainWindow, self).__init__()
         self.elapsed_time_in_sec = 0
         self.timerIsStarted = False
@@ -25,8 +32,17 @@ class MainWindow(QMainWindow):
         self.initUi(screenWidth, screenHeight)
 
 
-    def initUi(self, maxWidth, maxHeight):
-        self.setGeometry(maxWidth-150, -50, 300, 300)
+    def initUi(self, maxWidth):
+        """ Creates the main window
+        
+            Creates and displays the window at the top right of the screen,
+            it will stay on top of the desktop, is frameless and has a transparent backgound
+            
+            :param maxWidth: Max width of the current screen, in pixels
+            :type maxWidth: int
+            :return: None
+        """
+        self.setGeometry(maxWidth-150, -50, 150, 150)
         self.setWindowTitle("SpeedRun counter")
         self.setWindowFlags(Qt.FramelessWindowHint |
                             Qt.WindowStaysOnTopHint)
@@ -98,7 +114,6 @@ if __name__ == '__main__':
     # Get screen dimension to set the counter position
     screen = app.primaryScreen()
     rect = screen.availableGeometry()
-    rect.width(), rect.height()
 
-    window = MainWindow(rect.width(), rect.height())
+    window = MainWindow(rect.width())
     sys.exit(app.exec_())
